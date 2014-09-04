@@ -19,10 +19,50 @@ Puppet module to add Linux machines to a Windows Active Directory domain using W
 As this module fiddles with `smb.conf` it is not compatible with any other module
 that affects Samba operations.
 
+This module installs the following facts:
+
+ * `ads_domain`
+ * `winbind_version`
+
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+Usage of this module is quite straightforward.
+
+```
+class { 'winbind':
+  domainadminuser => 'admin',
+  domainadminpw   => 'password',
+  domain          => 'MYCOMPANY',
+  realm           => 'ads.mycompany.org',
+  netbiosname     => 'MYWORKSTATION',
+  nagioschecks    => true,
+}
+```
+
+### `domainadminuser`
+
+Username of Windows domain admin with sufficient rights to add machines to AD. Required.
+
+### `domainadminpw`
+
+Password of Windows domain admin with sufficient rights to add machines to AD. Required.
+
+### `domain`
+
+NT4-style domain name of your site, e.g. `MYCOMPANY`. Required.
+
+### `realm`
+
+Realm of your site, e.g. `ads.mycompany.org`. Required.
+
+### `netbiosname`
+
+Netbios name of the local machine. Optional, max 15 chars, defaults to `$::uniqueid`.
+
+### `nagioschecks`
+
+Whether to enable Nagios check for domain membership. Has hard-coded parameters and may
+not work for you with modification. Optional boolean, defaults to `false`.
 
 ## Reference
 
@@ -33,15 +73,11 @@ with things. (We are working on automating this section!)
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+Written for CentOS 5 and 6, not tested on other platforms. If your distro is not
+supported, send a patch!
+
+This module is not compatible with any other Samba/Winbind modules which touch `smb.conf`.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
+Pull requests and issues welcome. No guarantees of fixes, but I'll do my best.

@@ -1,41 +1,63 @@
-# == Class: winbind
-#
-# Full description of class winbind here.
-#
-# === Parameters
-#
-# Document parameters here.
-#
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
-#
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
-#
-# === Examples
-#
-#  class { winbind:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
-#
-# === Authors
-#
-# Author Name <author@domain.com>
-#
-# === Copyright
-#
-# Copyright 2014 Your name here, unless otherwise noted.
-#
-class winbind {
+# Install samba and winbind, and join box to the domain
+class winbind (
+  $domainadminuser,
+  $domainadminpw,
+  $domain,
+  $realm,
+  $netbiosname = $::uniqueid,
+  $nagioschecks = false,
+) {
 
+  # Main samba config file
+  file { 'smb.conf':
+    name    => '/etc/samba/smb.conf',
+    mode    => '0644',
+    owner   => 'root',
+    group   => 'root',
+    content => template('winbind/smb.conf.erb'),
+    require => Package['samba-client'],
+    notify  => [ Exec['add-to-domain'], Service['winbind'] ],
+  }
 
+  # Install samba winbind client
+  package { [
+    'samba-winbind-clients',
+    'samba-winbind',
+    'samba-client',
+  ]:
+    ensure  => installed,
+  }
+
+  # Add the machine to the UOB domain
+  exec { 'add-to-domain':
+    command => "net ads join -U ${domainadminuser}%${domainadminpw}",
+    onlyif  => "wbinfo --own-domain | grep -v ${domain}",
+    path    => '/bin:/usr/bin',
+    notify  => Service['winbind'],
+    require => [ File['smb.conf'], Package['samba-winbind-clients'] ],
+  }
+
+  # Start the winbind service
+  service { 'winbind':
+    ensure     => running,
+    require    => [ File['smb.conf'], Package['samba-winbind'] ],
+    subscribe  => File['smb.conf'],
+    enable     => true,
+    hasstatus  => true,
+    hasrestart => true,
+  }
+
+  if $nagioschecks == true {
+    # Nagios plugin to check for domain membership
+    @@nagios_service { "check_ads_${::fqdn}":
+      check_command       => 'check_nrpe!check_ads',
+      service_description => 'Domain',
+      use                 => 'hourly-service',
+    }
+    @@nagios_servicedependency { "check_ads_${::fqdn}":
+      dependent_host_name           => $::fqdn,
+      dependent_service_description => 'Domain',
+      service_description           => 'NRPE',
+    }
+  }
 }

@@ -4,7 +4,7 @@ class winbind (
   $domainadminpw,
   $domain,
   $realm,
-  $netbiosname = $::uniqueid,
+  $netbiosname = $::netbiosname,
   $nagioschecks = false,
 ) {
 

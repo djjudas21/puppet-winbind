@@ -10,7 +10,9 @@
 
 ## Overview
 
-Puppet module to add Linux machines to a Windows domain using Winbind
+Puppet module to add Linux machines to a Windows domain using Winbind. It installs the
+bare minimum needed to achieve this, and notably does not install or configure the Samba
+server.
 
 ## Module Description
 
@@ -26,7 +28,8 @@ This module installs the following facts:
 
 ## Usage
 
-Usage of this module is quite straightforward.
+Usage of this module is quite straightforward. A minimal example which accepts most
+defaults is:
 
 ```puppet
 class { 'winbind':
@@ -34,8 +37,21 @@ class { 'winbind':
   domainadminpw   => 'password',
   domain          => 'MYCOMPANY',
   realm           => 'ads.mycompany.org',
-  netbiosname     => 'MYWORKSTATION',
-  nagioschecks    => true,
+}
+```
+
+This example is more extensive and shows every possible option:
+
+```puppet
+class { 'winbind':
+  domainadminuser                => 'admin',
+  domainadminpw                  => 'password',
+  domain                         => 'MYCOMPANY',
+  realm                          => 'ads.mycompany.org',
+  netbiosname                    => 'MYWORKSTATION',
+  nagioschecks                   => true,
+  winbind_max_domain_connections => 8,
+  winbind_max_clients            => 500,
 }
 ```
 
@@ -77,11 +93,17 @@ Specify the maximum number of clients the winbindd daemon can connect with. Defa
 
 ## Limitations
 
-Written for CentOS 5 and 6, not tested on other platforms. If your distro is not
-supported, send a patch!
+Written for CentOS 5 and 6, not tested on other platforms. If your distro is not in the list
+but you know it works, let me know and I'll update the list. If the module needs some extra
+work to enable support for your distro, send a patch!
 
-This module is not compatible with any other Samba/Winbind modules which touch `smb.conf`.
+This module is not compatible with any other Samba/Winbind modules which touch `smb.conf` or
+handle Winbind packages.
 
 ## Development
 
 Pull requests and issues welcome. No guarantees of fixes, but I'll do my best.
+
+There are lots of [additional options for Winbind](https://www.samba.org/samba/docs/man/manpages/smb.conf.5.html)
+that can be specified in `smb.conf`. If you're feeling keen, edit the template and manifest
+and add these options to the module as parameters.

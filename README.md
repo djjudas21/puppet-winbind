@@ -5,9 +5,8 @@
 1. [Overview](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
 3. [Usage - Configuration options and additional functionality](#usage)
-4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+4. [Limitations - OS compatibility, etc.](#limitations)
+5. [Development - Guide for contributing to the module](#development)
 
 ## Overview
 
@@ -21,14 +20,15 @@ that affects Samba operations.
 
 This module installs the following facts:
 
- * `ads_domain`
- * `winbind_version`
+ * `ads_domain` - the name of the domain the system is currently joined to
+ * `winbind_version` - the version of winbind currently installed on the system
+ * `netbiosname` - a suggested default value for the Netbios name
 
 ## Usage
 
 Usage of this module is quite straightforward.
 
-```
+```puppet
 class { 'winbind':
   domainadminuser => 'admin',
   domainadminpw   => 'password',
@@ -57,12 +57,12 @@ Realm of your site, e.g. `ads.mycompany.org`. Required.
 
 ### `netbiosname`
 
-Netbios name of the local machine. Optional, max 15 chars, defaults to `$::uniqueid`.
+Netbios name of the local machine. Optional, max 15 chars, defaults to `$::netbiosname`.
 
 ### `nagioschecks`
 
 Whether to enable Nagios check for domain membership. Has hard-coded parameters and may
-not work for you with modification. Optional boolean, defaults to `false`.
+not work with your Puppet environment. Optional boolean, defaults to `false`.
 
 ### `winbind_max_domain_connections`
 
@@ -74,13 +74,6 @@ some of which might be slow. Default: `1`
 ### `winbind_max_clients`
 
 Specify the maximum number of clients the winbindd daemon can connect with. Default: `200`.
-
-## Reference
-
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
 
 ## Limitations
 

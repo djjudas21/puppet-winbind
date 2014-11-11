@@ -6,6 +6,8 @@ class winbind (
   $realm,
   $netbiosname = $::netbiosname,
   $nagioschecks = false,
+  $winbind_max_domain_connections = 1,
+  $winbind_max_clients = 200,
 ) {
 
   # Main samba config file

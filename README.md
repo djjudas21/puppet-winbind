@@ -64,6 +64,17 @@ Netbios name of the local machine. Optional, max 15 chars, defaults to `$::uniqu
 Whether to enable Nagios check for domain membership. Has hard-coded parameters and may
 not work for you with modification. Optional boolean, defaults to `false`.
 
+### `winbind_max_domain_connections`
+
+Specify the maximum number of simultaneous connections that the winbindd daemon
+should open to the domain controller of one domain. Setting this parameter to a
+value greater than 1 can improve scalability with many simultaneous winbind requests,
+some of which might be slow. Default: `1`
+
+### `winbind_max_clients`
+
+Specify the maximum number of clients the winbindd daemon can connect with. Default: `200`.
+
 ## Reference
 
 Here, list the classes, types, providers, facts, etc contained in your module.

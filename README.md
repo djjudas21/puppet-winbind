@@ -48,6 +48,7 @@ class { 'winbind':
   domainadminpw                  => 'password',
   domain                         => 'MYCOMPANY',
   realm                          => 'ads.mycompany.org',
+  createcomputer                 => 'Computers/BusinessUnit/Department/Servers',
   netbiosname                    => 'MYWORKSTATION',
   nagioschecks                   => true,
   winbind_max_domain_connections => 8,
@@ -71,6 +72,10 @@ NT4-style domain name of your site, e.g. `MYCOMPANY`. Required.
 
 Realm of your site, e.g. `ads.mycompany.org`. Required.
 
+### `createcomputer`
+
+OU to create the machine account in. Optional.
+
 ### `netbiosname`
 
 Netbios name of the local machine. Optional, max 15 chars, defaults to `$::netbiosname`.
@@ -93,7 +98,7 @@ Specify the maximum number of clients the winbindd daemon can connect with. Defa
 
 ## Limitations
 
-Written for CentOS 5 and 6, not tested on other platforms. If your distro is not in the list
+Written for CentOS 5 and 6 with Samba 3.x. not tested on other platforms. If your distro is not in the list
 but you know it works, let me know and I'll update the list. If the module needs some extra
 work to enable support for your distro, send a patch!
 

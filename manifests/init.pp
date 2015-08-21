@@ -4,6 +4,7 @@ class winbind (
   $domainadminpw,
   $domain,
   $realm,
+  $createcomputer,
   $netbiosname = $::netbiosname,
   $nagioschecks = false,
   $winbind_max_domain_connections = 1,
@@ -30,9 +31,14 @@ class winbind (
     ensure  => installed,
   }
 
+  # If createcomputer is defined, prepend it with the argument
+  if ($createcomputer) {
+    $createcomputerarg = "createcomputer=${createcomputer}"
+  }
+
   # Add the machine to the UOB domain
   exec { 'add-to-domain':
-    command => "net ads join -U ${domainadminuser}%${domainadminpw}",
+    command => "net ads join -U ${domainadminuser}%${domainadminpw} ${createcomputerarg}",
     onlyif  => "wbinfo --own-domain | grep -v ${domain}",
     path    => '/bin:/usr/bin',
     notify  => Service['winbind'],

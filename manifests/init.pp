@@ -36,7 +36,7 @@ class winbind (
     $createcomputerarg = "createcomputer=${createcomputer}"
   }
 
-  # Add the machine to the UOB domain
+  # Add the machine to the domain
   exec { 'add-to-domain':
     command => "net ads join -U ${domainadminuser}%${domainadminpw} ${createcomputerarg}",
     onlyif  => "wbinfo --own-domain | grep -v ${domain}",

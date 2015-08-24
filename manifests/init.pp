@@ -9,6 +9,7 @@ class winbind (
   $nagioschecks = false,
   $winbind_max_domain_connections = 1,
   $winbind_max_clients = 200,
+  $osdata = false,
 ) {
 
   # Main samba config file
@@ -36,9 +37,14 @@ class winbind (
     $createcomputerarg = "createcomputer=${createcomputer}"
   }
 
+  # If $osdata=true, populate the string
+  if ($osdata) {
+    $osdataarg = "osName='${::operatingsystem}' osVer=${::operatingsystemmajrelease}"
+  }
+
   # Add the machine to the domain
   exec { 'add-to-domain':
-    command => "net ads join -U ${domainadminuser}%${domainadminpw} ${createcomputerarg}",
+    command => "net ads join -U ${domainadminuser}%${domainadminpw} ${createcomputerarg} ${osdataarg}",
     onlyif  => "wbinfo --own-domain | grep -v ${domain}",
     path    => '/bin:/usr/bin',
     notify  => Service['winbind'],

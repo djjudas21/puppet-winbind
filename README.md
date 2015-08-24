@@ -53,6 +53,7 @@ class { 'winbind':
   nagioschecks                   => true,
   winbind_max_domain_connections => 8,
   winbind_max_clients            => 500,
+  osdata                         => false,
 }
 ```
 
@@ -95,6 +96,10 @@ some of which might be slow. Default: `1`
 ### `winbind_max_clients`
 
 Specify the maximum number of clients the winbindd daemon can connect with. Default: `200`.
+
+### `osdata`
+
+If true, provide values for `osName` and `osVer` (e.g. `CentOS` and `7`). Default: `false`.
 
 ## Limitations
 

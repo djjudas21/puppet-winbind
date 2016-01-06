@@ -5,6 +5,7 @@ class winbind (
   $domain,
   $realm,
   $createcomputer,
+  $machine_password_timeout = 604800,
   $netbiosname = $::netbiosname,
   $nagioschecks = false,
   $winbind_max_domain_connections = 1,

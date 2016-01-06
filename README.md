@@ -54,6 +54,7 @@ class { 'winbind':
   winbind_max_domain_connections => 8,
   winbind_max_clients            => 500,
   osdata                         => false,
+  machine_password_timeout       => 0,
 }
 ```
 
@@ -100,6 +101,10 @@ Specify the maximum number of clients the winbindd daemon can connect with. Defa
 ### `osdata`
 
 If true, provide values for `osName` and `osVer` (e.g. `CentOS` and `7`). Default: `false`.
+
+### `machine_password_timeout`
+
+This parameter specifies how often machine password will be changed, in seconds. The default is one week (expressed in seconds), the same as a Windows NT Domain member server. Default: `604800`.
 
 ## Limitations
 

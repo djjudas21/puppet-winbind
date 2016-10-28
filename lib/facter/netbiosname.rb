@@ -2,6 +2,7 @@
 # $hostname or $fqdn because these may be non-unique when truncated. Instead
 # we use the first 9 alphanumeric chars of the hostname and then append the 
 # last 6 characters of the 8-character $uniqueid
+require 'facter'
   Facter.add(:netbiosname) do
     setcode do
       uniqueid = Facter.value(:uniqueid)[2..7]

@@ -55,6 +55,7 @@ class { 'winbind':
   winbind_max_clients            => 500,
   osdata                         => false,
   machine_password_timeout       => 0,
+  smbconf_file                   => '/etc/samba/custom-smb.conf'
 }
 ```
 
@@ -87,6 +88,11 @@ Netbios name of the local machine. Optional, max 15 chars, defaults to `$::netbi
 Whether to enable Nagios check for domain membership. Has hard-coded parameters and may
 not work with your Puppet environment. Optional boolean, defaults to `false`.
 
+### `smbconf_file`
+
+Specify a custom disk location for the smb.conf file. Useful if another module is managing
+samba shares in the default configuration file.
+ 
 ### `winbind_max_domain_connections`
 
 Specify the maximum number of simultaneous connections that the winbindd daemon

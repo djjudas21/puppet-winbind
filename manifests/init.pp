@@ -53,6 +53,13 @@ class winbind (
     require => [ File['smb.conf'], Package['samba-winbind-clients'] ],
   }
 
+  file_line { 'let-winbind-use-custom-smbconf-file':
+    path   => '/etc/sysconfig/samba',
+    line   => "WINBINDOPTIONS=\" -s ${smbconf_file}\"",
+    match  => '^WINBINDOPTIONS=.*$',
+    notify => Service['winbind'],
+  }
+
   # Start the winbind service
   service { 'winbind':
     ensure     => running,

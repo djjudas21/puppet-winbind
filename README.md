@@ -18,7 +18,8 @@ server.
 
 Puppet module to add Linux machines to a Windows Active Directory domain using Winbind.
 As this module fiddles with `smb.conf` it is not compatible with any other module
-that affects Samba operations.
+that affects Samba operations, unless a non default location for `smb.conf` is specified as 
+a parameter.
 
 This module installs the following facts:
 
@@ -92,7 +93,7 @@ not work with your Puppet environment. Optional boolean, defaults to `false`.
 
 Specify a custom disk location for the smb.conf file. Useful if another module is managing
 samba shares in the default configuration file.
- 
+
 ### `winbind_max_domain_connections`
 
 Specify the maximum number of simultaneous connections that the winbindd daemon

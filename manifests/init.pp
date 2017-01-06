@@ -11,11 +11,12 @@ class winbind (
   $winbind_max_domain_connections = 1,
   $winbind_max_clients = 200,
   $osdata = false,
+  $smbconf_file = '/etc/samba/smb.conf',
 ) {
 
   # Main samba config file
   file { 'smb.conf':
-    name    => '/etc/samba/smb.conf',
+    name    => $smbconf_file,
     mode    => '0644',
     owner   => 'root',
     group   => 'root',
@@ -45,11 +46,18 @@ class winbind (
 
   # Add the machine to the domain
   exec { 'add-to-domain':
-    command => "net ads join -U ${domainadminuser}%${domainadminpw} ${createcomputerarg} ${osdataarg}",
+    command => "net ads join -s ${smbconf_file} -U ${domainadminuser}%${domainadminpw} ${createcomputerarg} ${osdataarg}",
     onlyif  => "wbinfo --own-domain | grep -v ${domain}",
     path    => '/bin:/usr/bin',
     notify  => Service['winbind'],
     require => [ File['smb.conf'], Package['samba-winbind-clients'] ],
+  }
+
+  file_line { 'let-winbind-use-custom-smbconf-file':
+    path   => '/etc/sysconfig/samba',
+    line   => "WINBINDOPTIONS=\" -s ${smbconf_file}\"",
+    match  => '^WINBINDOPTIONS=.*$',
+    notify => Service['winbind'],
   }
 
   # Start the winbind service

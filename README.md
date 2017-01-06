@@ -18,7 +18,8 @@ server.
 
 Puppet module to add Linux machines to a Windows Active Directory domain using Winbind.
 As this module fiddles with `smb.conf` it is not compatible with any other module
-that affects Samba operations.
+that affects Samba operations, unless a non default location for `smb.conf` is specified as 
+a parameter.
 
 This module installs the following facts:
 
@@ -55,6 +56,7 @@ class { 'winbind':
   winbind_max_clients            => 500,
   osdata                         => false,
   machine_password_timeout       => 0,
+  smbconf_file                   => '/etc/samba/custom-smb.conf'
 }
 ```
 
@@ -86,6 +88,11 @@ Netbios name of the local machine. Optional, max 15 chars, defaults to `$::netbi
 
 Whether to enable Nagios check for domain membership. Has hard-coded parameters and may
 not work with your Puppet environment. Optional boolean, defaults to `false`.
+
+### `smbconf_file`
+
+Specify a custom disk location for the smb.conf file. Useful if another module is managing
+samba shares in the default configuration file.
 
 ### `winbind_max_domain_connections`
 

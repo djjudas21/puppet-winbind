@@ -98,7 +98,8 @@
 	realm = <%= @realm %>
 	machine password timeout = <%= @machine_password_timeout %>
 
-	winbind use default domain = no
+	winbind use default domain = <%= @winbind_use_default_domain %>
+        winbind offline logon = <%= @winbind_offline_logon %>
 	winbind nested groups = Yes
 	winbind enum users = No
 	winbind enum groups = No
@@ -127,11 +128,12 @@
 # DNS Proxy - tells Samba whether or not to try to resolve NetBIOS names
 # via DNS nslookups.
 	
-	dns proxy = yes
+	dns proxy          = yes
 	name resolve order = host lmhosts
-	idmap uid = 16777216-33554431
-	idmap gid = 16777216-33554431
-	template shell = /bin/false
+	idmap uid          = <%= @uidrange %> 
+	idmap gid          = <%= @uidrange %>
+	template shell     = <%= @template_shell %>
+        template homedir   = <%= @template_homedir %> 
 
 #----------------------------- Winbind options -------------------------------
 # Winbind options

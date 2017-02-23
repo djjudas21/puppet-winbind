@@ -10,8 +10,14 @@ class winbind (
   $nagioschecks = false,
   $winbind_max_domain_connections = 1,
   $winbind_max_clients = 200,
+  $winbind_use_default_domain = 'no',
+  $winbind_offline_logon = 'false',
+  $template_shell = '/bin/false',
+  $template_homedir = '/home/%U',
   $osdata = false,
+  $uidrange = '16777216-33554431',
   $smbconf_file = '/etc/samba/smb.conf',
+  
 ) {
 
   # Main samba config file
@@ -36,7 +42,7 @@ class winbind (
 
   # If createcomputer is defined, prepend it with the argument
   if ($createcomputer) {
-    $createcomputerarg = "createcomputer=${createcomputer}"
+    $createcomputerarg = "createcomputer='${createcomputer}'"
   }
 
   # If $osdata=true, populate the string

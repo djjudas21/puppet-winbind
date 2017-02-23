@@ -151,5 +151,5 @@ handle Winbind packages.
 Pull requests and issues welcome. No guarantees of fixes, but I'll do my best.
 
 There are lots of [additional options for Winbind](https://www.samba.org/samba/docs/man/manpages/smb.conf.5.html)
-that can be specified in `smb.conf`. If you're feeling keen, edit the template and manifest
+that can be specified in `smb.conf`. If you're feeling keen, edit the template, manifest and README
 and add these options to the module as parameters.

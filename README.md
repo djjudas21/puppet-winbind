@@ -57,6 +57,11 @@ class { 'winbind':
   osdata                         => false,
   machine_password_timeout       => 0,
   smbconf_file                   => '/etc/samba/custom-smb.conf'
+  winbind_use_default_domain     => 'no',
+  winbind_offline_logon          => 'false',
+  template_shell                 => '/bin/false',
+  template_homedir               => '/home/%U',
+  uidrange                       => '16777216-33554431',
 }
 ```
 
@@ -112,6 +117,25 @@ If true, provide values for `osName` and `osVer` (e.g. `CentOS` and `7`). Defaul
 ### `machine_password_timeout`
 
 This parameter specifies how often machine password will be changed, in seconds. The default is one week (expressed in seconds), the same as a Windows NT Domain member server. Default: `604800`.
+
+### `winbind_use_default_domain`
+
+Causes winbind to treat any username that isn't qualified with a domain name as a username in the domain to which winbind is joined. Default: `no`
+
+### `winbind_offline_logon`
+
+Allow offline logon with cached credentials Default: `false`
+### `template_shell`
+
+Default user shell. Default: `/bin/false`
+
+### `template_homedir`
+
+Default location of user's home directory. Default: `/home/%U`
+
+### `uidrange`
+
+Range of UIDs that can be allocated. Default: `16777216-33554431`
 
 ## Limitations
 

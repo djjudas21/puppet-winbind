@@ -15,7 +15,7 @@ class winbind (
   $template_shell = '/bin/false',
   $template_homedir = '/home/%U',
   $osdata = false,
-  $uidrange = '15000-30000',
+  $uidrange = '16777216-33554431',
   $smbconf_file = '/etc/samba/smb.conf',
   
 ) {

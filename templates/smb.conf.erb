@@ -146,4 +146,8 @@
 
         # This parameter specifies the maximum number of clients the winbindd(8)
         # daemon can connect with. Default 200.
-        winbind max clients = <%= @winbind_max_clients %>
+	winbind max clients = <%= @winbind_max_clients %>
+
+#----------------------------- Kerberos options -------------------------------
+	dedicated keytab file = /etc/krb5.keytab
+	kerberos method = dedicated keytab

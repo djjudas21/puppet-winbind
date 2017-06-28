@@ -52,8 +52,17 @@ class winbind (
 
   # Add the machine to the domain
   exec { 'add-to-domain':
-    command => "net ads join -s ${smbconf_file} -U ${domainadminuser}%${domainadminpw} ${createcomputerarg} ${osdataarg}",
+    command => "net ads join -s ${smbconf_file} -U ${domainadminuser}%${domainadminpw} ${createcomputerarg} ${osdataarg} --no-dns-updates",
     onlyif  => "wbinfo --own-domain | grep -v ${domain}",
+    path    => '/bin:/usr/bin',
+    notify  => [ Service['winbind'], Exec['create-keytab'] ],
+    require => [ File['smb.conf'], Package['samba-winbind-clients'] ],
+  }
+
+  # Create a Kerberos keytab
+  exec { 'create-keytab':
+    command => "net ads keytab create -U ${domainadminuser}%${domainadminpw} no-dns-updates"
+    creates => '/etc/krb5.keytab',
     path    => '/bin:/usr/bin',
     notify  => Service['winbind'],
     require => [ File['smb.conf'], Package['samba-winbind-clients'] ],

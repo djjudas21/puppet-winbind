@@ -11,7 +11,7 @@ class winbind (
   Integer $winbind_max_domain_connections = 1,
   Integer $winbind_max_clients = 200,
   String $winbind_use_default_domain = 'no',
-  String $winbind_offline_logon = 'false',
+  String $winbind_offline_logon = 'no',
   String $template_shell = '/bin/false',
   String $template_homedir = '/home/%U',
   Boolean $osdata = false,

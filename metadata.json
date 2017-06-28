@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "author": "jgazeley",
   "summary": "Puppet module to add Linux machines to a Windows domain using Winbind",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/djjudas21/puppet-winbind",
   "issues_url": "https://github.com/djjudas21/puppet-winbind/issues",
   "tags": ["samba", "winbind"],

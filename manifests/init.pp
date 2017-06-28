@@ -60,7 +60,7 @@ class winbind (
 
   # Create a Kerberos keytab
   exec { 'create-keytab':
-    command => "net ads keytab create -U ${domainadminuser}%${domainadminpw} no-dns-updates"
+    command => "net ads keytab create -U ${domainadminuser}%${domainadminpw} no-dns-updates",
     creates => '/etc/krb5.keytab',
     path    => '/bin:/usr/bin',
     notify  => Service['winbind'],

@@ -51,7 +51,6 @@ class { 'winbind':
   realm                          => 'ads.mycompany.org',
   createcomputer                 => 'Computers/BusinessUnit/Department/Servers',
   netbiosname                    => 'MYWORKSTATION',
-  nagioschecks                   => true,
   winbind_max_domain_connections => 8,
   winbind_max_clients            => 500,
   osdata                         => false,
@@ -88,11 +87,6 @@ OU to create the machine account in. Optional.
 ### `netbiosname`
 
 Netbios name of the local machine. Optional, max 15 chars, defaults to `$::netbiosname`.
-
-### `nagioschecks`
-
-Whether to enable Nagios check for domain membership. Has hard-coded parameters and may
-not work with your Puppet environment. Optional boolean, defaults to `false`.
 
 ### `smbconf_file`
 

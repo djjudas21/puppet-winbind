@@ -7,7 +7,6 @@ class winbind (
   String $createcomputer,
   Integer $machine_password_timeout = 604800,
   String $netbiosname = $::netbiosname,
-  Boolean $nagioschecks = false,
   Integer $winbind_max_domain_connections = 1,
   Integer $winbind_max_clients = 200,
   String $winbind_use_default_domain = 'no',
@@ -73,19 +72,5 @@ class winbind (
     enable     => true,
     hasstatus  => true,
     hasrestart => true,
-  }
-
-  if $nagioschecks == true {
-    # Nagios plugin to check for domain membership
-    @@nagios_service { "check_ads_${::fqdn}":
-      check_command       => 'check_nrpe!check_ads',
-      service_description => 'Domain',
-      use                 => 'hourly-service',
-    }
-    @@nagios_servicedependency { "check_ads_${::fqdn}":
-      dependent_host_name           => $::fqdn,
-      dependent_service_description => 'Domain',
-      service_description           => 'NRPE',
-    }
   }
 }

@@ -16,6 +16,9 @@ class winbind (
   Boolean $osdata = false,
   String $uidrange = '16777216-33554431',
   String $smbconf_file = '/etc/samba/smb.conf',
+  String $winbind_clients_package = 'samba-winbind-clients',
+  String $samba_client_package = 'samba-client',
+  String $samba_winbind_package = 'samba-winbind',
 ) {
 
   # Main samba config file
@@ -25,17 +28,25 @@ class winbind (
     owner   => 'root',
     group   => 'root',
     content => template('winbind/smb.conf.erb'),
-    require => Package['samba-client'],
+    require => Package[$samba_client_package],
     notify  => [ Exec['add-to-domain'], Service['winbind'] ],
   }
 
-  # Install samba winbind client
-  package { [
-    'samba-winbind-clients',
-    'samba-winbind',
-    'samba-client',
-  ]:
-    ensure  => installed,
+  # Install packages
+  if($winbind_clients_package) {
+    package { $winbind_clients_package:
+      ensure  => installed,
+    }
+  }
+  if($samba_winbind_package) {
+    package { $samba_winbind_package:
+      ensure  => installed,
+    }
+  }
+  if($samba_client_package) {
+    package { $samba_client_package:
+      ensure  => installed,
+    }
   }
 
   # If createcomputer is defined, prepend it with the argument
@@ -54,7 +65,7 @@ class winbind (
     onlyif  => "wbinfo --own-domain | grep -v ${domain}",
     path    => '/bin:/usr/bin',
     notify  => Service['winbind'],
-    require => [ File['smb.conf'], Package['samba-winbind-clients'] ],
+    require => [ File['smb.conf'], Package[$samba_winbind_clients] ],
   }
 
   file_line { 'let-winbind-use-custom-smbconf-file':
@@ -67,7 +78,7 @@ class winbind (
   # Start the winbind service
   service { 'winbind':
     ensure     => running,
-    require    => [ File['smb.conf'], Package['samba-winbind'] ],
+    require    => [ File['smb.conf'], Package[$samba_winbind_package] ],
     subscribe  => File['smb.conf'],
     enable     => true,
     hasstatus  => true,

@@ -61,6 +61,9 @@ class { 'winbind':
   template_shell                 => '/bin/false',
   template_homedir               => '/home/%U',
   uidrange                       => '16777216-33554431',
+  winbind_clients_package        => 'samba-winbind-clients',
+  samba_client_package           => 'samba-client',
+  samba_winbind_package          => 'samba-winbind',
 }
 ```
 
@@ -130,6 +133,18 @@ Default location of user's home directory. Default: `/home/%U`
 ### `uidrange`
 
 Range of UIDs that can be allocated. Default: `16777216-33554431`
+
+### `winbind_clients_package`
+
+Package name of Winbind client tools. Default: `samba-winbind-clients`
+
+### `samba_client_package`
+
+Package name of Samba client. Default: `samba-client`
+
+### `samba_winbind_package`
+
+Package name of Winbind libraries. Default: `samba-winbind`
 
 ## Limitations
 

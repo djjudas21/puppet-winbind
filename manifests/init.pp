@@ -19,6 +19,7 @@ class winbind (
   String $winbind_clients_package = 'samba-winbind-clients',
   String $samba_client_package = 'samba-client',
   String $samba_winbind_package = 'samba-winbind',
+  String $samba_conf_template = 'winbind/smb.conf.erb',
 ) {
 
   # Main samba config file
@@ -27,7 +28,7 @@ class winbind (
     mode    => '0644',
     owner   => 'root',
     group   => 'root',
-    content => template('winbind/smb.conf.erb'),
+    content => template($samba_conf_template),
     require => Package[$samba_client_package],
     notify  => [ Exec['add-to-domain'], Service['winbind'] ],
   }

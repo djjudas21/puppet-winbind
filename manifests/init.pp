@@ -20,6 +20,8 @@ class winbind (
   String $samba_client_package = 'samba-client',
   String $samba_winbind_package = 'samba-winbind',
   String $samba_conf_template = 'winbind/smb.conf.erb',
+  String $idmap_config_backend = 'tdb',
+  String $idmap_config_range = $uidrange,
 ) {
 
   # Main samba config file

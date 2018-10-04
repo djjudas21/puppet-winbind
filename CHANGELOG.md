@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.4.2
+
+ * Fix bug with `createcomputer` parameter default
+
 ### 0.4.1
 
  * Confine custom facts to run on Linux, as they conflict on Windows

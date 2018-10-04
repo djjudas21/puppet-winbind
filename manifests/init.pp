@@ -4,7 +4,7 @@ class winbind (
   String $domainadminpw,
   String $domain,
   String $realm,
-  String $createcomputer,
+  String $createcomputer = undef,
   Integer $machine_password_timeout = 604800,
   String $netbiosname = $::netbiosname,
   Integer $winbind_max_domain_connections = 1,

@@ -134,6 +134,8 @@
 	idmap gid          = <%= @uidrange %>
 	template shell     = <%= @template_shell %>
         template homedir   = <%= @template_homedir %> 
+  idmap config * : backend  = <%= @idmap_config_backend %>
+  idmap config * : range = <%= @idmap_config_range %>
 
 #----------------------------- Winbind options -------------------------------
 # Winbind options

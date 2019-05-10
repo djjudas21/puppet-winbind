@@ -4,7 +4,7 @@ class winbind (
   String $domainadminpw,
   String $domain,
   String $realm,
-  String $createcomputer = undef,
+  String $createcomputer = '',
   Integer $machine_password_timeout = 604800,
   String $netbiosname = $::netbiosname,
   Integer $winbind_max_domain_connections = 1,
@@ -53,13 +53,16 @@ class winbind (
   }
 
   # If createcomputer is defined, prepend it with the argument
-  if ($createcomputer) {
+  if ($createcomputer != '') {
     $createcomputerarg = "createcomputer='${createcomputer}'"
   }
 
   # If $osdata=true, populate the string
   if ($osdata) {
     $osdataarg = "osName='${::operatingsystem}' osVer=${::operatingsystemmajrelease}"
+  }
+  else {
+    $osdataarg = ''
   }
 
   # Add the machine to the domain
@@ -68,7 +71,7 @@ class winbind (
     onlyif  => "wbinfo --own-domain | grep -v ${domain}",
     path    => '/bin:/usr/bin',
     notify  => Service['winbind'],
-    require => [ File['smb.conf'], Package[$samba_winbind_clients] ],
+    require => [ File['smb.conf'], Package[$winbind_clients_package] ],
   }
 
   file_line { 'let-winbind-use-custom-smbconf-file':

@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.5.0
+
+ * Support for Puppet 6
+
 ### 0.4.2
 
  * Fix bug with `createcomputer` parameter default

@@ -1,0 +1,17 @@
+---
+.gitignore:
+  required:
+    - 'appveyor.yml'
+appveyor.yml:
+  delete: true
+Rakefile:
+  default_disabled_lint_checks:
+    - '140chars'
+spec/default_facts.yml:
+  extra_facts:
+    netbiosname: 'example'
+spec/spec_helper.rb:
+  mock_with: ':rspec'
+  # strict_level: ':error'
+  coverage_report: true
+  minimum_code_coverage_percentage: 95

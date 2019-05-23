@@ -1,6 +1,6 @@
 {
   "name": "jgazeley-winbind",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": "jgazeley",
   "summary": "Puppet module to add Linux machines to a Windows domain using Winbind",
   "license": "Apache-2.0",

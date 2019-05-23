@@ -1,5 +1,13 @@
 ## Changelog
 
+### 0.5.1
+
+ * Make sure createcomputerarg always has a value
+ * Update tests
+ * Add CI via PDK
+
+Thanks to @bjvrielink
+
 ### 0.5.0
 
  * Support for Puppet 6

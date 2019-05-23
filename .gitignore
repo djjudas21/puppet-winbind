@@ -1,4 +1,5 @@
 *.swp
 pkg/
-spec/fixures/
+spec/fixtures/
 .gemfile.lock
+/Gemfile.lock

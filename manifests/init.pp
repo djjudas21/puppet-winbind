@@ -56,6 +56,9 @@ class winbind (
   if ($createcomputer != '') {
     $createcomputerarg = "createcomputer='${createcomputer}'"
   }
+  else {
+    $createcomputerarg = ''
+  }
 
   # If $osdata=true, populate the string
   if ($osdata) {

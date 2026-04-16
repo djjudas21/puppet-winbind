@@ -17,7 +17,7 @@ before_script:
 
 syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop-Ruby 2.5.3-Puppet ~> 6:
   stage: syntax
-  image: ruby:2.5.3
+  image: ruby:2.7.8
   script:
     - bundle exec rake syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop
   variables:
@@ -25,7 +25,7 @@ syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore c
 
 parallel_spec-Ruby 2.5.3-Puppet ~> 6:
   stage: unit
-  image: ruby:2.5.3
+  image: ruby:2.7.8
   script:
     - bundle exec rake parallel_spec
   variables:
@@ -33,7 +33,7 @@ parallel_spec-Ruby 2.5.3-Puppet ~> 6:
 
 parallel_spec-Ruby 2.4.5-Puppet ~> 5:
   stage: unit
-  image: ruby:2.4.5
+  image: ruby:2.7.8
   script:
     - bundle exec rake parallel_spec
   variables:
